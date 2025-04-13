@@ -1,51 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Link from './Link';
+import { Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+const navigationData = [
+    {
+        name: "Home",
+        path: "/home",
+        id: 1
+    },
+    {
+        name: "About Us",
+        path: "/about-us",
+        id: 2
+    },
+    {
+        name: "Services",
+        path: "/services",
+        id: 3
+    },
+    {
+        name: "Contact",
+        path: "/contact",
+        id: 4
+    },
+    {
+        name: "Blog",
+        path: "/blog",
+        id: 5
+    }
+];
+
+
+const NavBar = () => {
+    const [open, setOpen] = useState(false);
+
+    const links = navigationData.map(route => <Link key={route.id} route={route}></Link>)
+
     return (
-        <div>
-            <div className="navbar bg-base-100 shadow-sm">
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
-                        </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li>
-                        </ul>
-                    </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
-                </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li><a>Item 3</a></li>
-                    </ul>
-                </div>
-                <div className="navbar-end">
-                    <a className="btn">Button</a>
-                </div>
-            </div>
-        </div>
+        <nav className='flex justify-between mx-10 mt-4'>
+            <span className='flex' onClick={() => setOpen(!open)}>
+                {
+                    open ?
+                        <X className='md:hidden'></X> :
+                        <Menu className='md:hidden'></Menu>
+                }
+                <ul className={`md:hidden absolute duration-1000 text-black
+                    ${open ? 'top-8' : '-top-40'}
+                    bg-amber-200`}>
+                    {links}
+                </ul>
+                <h3 className='ml-4'>My Navbar</h3>
+            </span>
+            <ul className='md:flex hidden'>
+                {
+                    links
+                }
+            </ul>
+
+            {/* <ul className='flex'>
+                {
+                    navigationData.map(route =><li className='mr-10'>
+                        <a href={route.path}>{route.name}</a>
+                        </li>)
+                }
+            </ul> */}
+
+            {/* <ul className='flex'>
+                <li className='mr-10'><a href="/">Home</a></li>
+                <li className='mr-10'><a href="/about">About</a></li>
+                <li className='mr-10'><a href="/blog">Blog</a></li>
+            </ul> */}
+
+            <button>Sign In</button>
+        </nav>
     );
 };
 
-export default Navbar;
+export default NavBar;
